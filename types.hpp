@@ -57,24 +57,36 @@ private:
 	Inits* inits;
 	State_vec2 maze;
 	const Len len;
+	void releaseSize();
+	void init();
 public:
 	Maze(){
 		this->releaseSize();
-		//this->inits=new MakeHoldBoard();
+		this->inits=new MakeHoldBoard();
 		//this->inits=new MakeExtendBoard();
-		this->inits=new MakeRodBoard();
+		//this->inits=new MakeRodBoard();
+		this->init();
 	}
 	~Maze(){
 		delete inits;
 	}
-	State getState(const int x,const int y) const;
-	void setState(const int x,const int y,const State state);
-	void releaseSize();
-	void init();
+	State getState(const Coordinate coodinate) const;
+	void setState(const Coordinate coodinate,const State state);
 	void disp() const;
 	void eachDisp(State_vec1 vec1) const;
 	void stateDisp(State state) const;
 };
 
+enum class Direction{
+	UP,DOWN,RIGHT,LEFT
+};
 
+class DigBuilder{
+private:
+public:
+	DigBuilder();
+	~DigBuilder();
+	Direction random() const;
+	bool isOutLine() const;
+};
 

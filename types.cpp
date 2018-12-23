@@ -2,6 +2,7 @@
 #include<vector>
 #include<algorithm>
 #include<cassert>
+#include<random>
 #include"types.hpp"
 
 int Len::get_x_size() const{
@@ -46,13 +47,13 @@ void MakeRodBoard::makeBoard(State_vec2& vec2){
 		});
 }
 
-State Maze::getState(const int x, const int y) const{
-	assert((this->maze.at(x).at(y)==State::ROAD||this->maze.at(y).at(x)==State::WALL)&&"out of range");
-	return this->maze.at(x).at(y);
+State Maze::getState(const Coordinate coodinate) const{
+	assert((this->maze.at(coodinate.x).at(coodinate.y)==State::ROAD||this->maze.at(coodinate.y).at(coodinate.x)==State::WALL)&&"out of range");
+	return this->maze.at(coodinate.x).at(coodinate.y);
 }
-void Maze::setState(const int x, const int y, const State state){
- 	assert((this->maze.at(x).at(y)==State::ROAD||this->maze.at(y).at(x)==State::WALL)&&"out of range");
-	this->maze.at(x).at(y)=state;
+void Maze::setState(const Coordinate coodinate, const State state){
+	assert((this->maze.at(coodinate.x).at(coodinate.y)==State::ROAD||this->maze.at(coodinate.y).at(coodinate.x)==State::WALL)&&"out of range");
+	this->maze.at(coodinate.x).at(coodinate.y)=state;
 }
 void Maze::releaseSize(){
 	this->maze.resize(len.get_y_size());
@@ -86,3 +87,14 @@ void Maze::stateDisp(State state) const{
 		assert(!"error"); break;
 	}
 }
+
+Direction DigBuilder::random() const{
+	std::random_device rnd;
+	std::mt19937_64 mt(rnd());
+	std::uniform_int_distribution<> rand4(0,3);
+	int random=rand4(mt);
+	Direction direction=static_cast<Direction>(random);
+	return direction;
+}
+
+
