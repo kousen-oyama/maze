@@ -1,0 +1,17 @@
+[
+{
+  "directory": "/home/kaito/program/form_maze",
+  "command": "/usr/bin/c++  -DMACRO1=bar  -std=c++11 -Wall   -I/foo/dir1 -o CMakeFiles/cmake_test.dir/CMakeFiles/3.10.2/CompilerIdCXX/CMakeCXXCompilerId.cpp.o -c /home/kaito/program/form_maze/CMakeFiles/3.10.2/CompilerIdCXX/CMakeCXXCompilerId.cpp",
+  "file": "/home/kaito/program/form_maze/CMakeFiles/3.10.2/CompilerIdCXX/CMakeCXXCompilerId.cpp"
+},
+{
+  "directory": "/home/kaito/program/form_maze",
+  "command": "/usr/bin/c++  -DMACRO1=bar  -std=c++11 -Wall   -I/foo/dir1 -o CMakeFiles/cmake_test.dir/main.cpp.o -c /home/kaito/program/form_maze/main.cpp",
+  "file": "/home/kaito/program/form_maze/main.cpp"
+},
+{
+  "directory": "/home/kaito/program/form_maze",
+  "command": "/usr/bin/c++  -DMACRO1=bar  -std=c++11 -Wall   -I/foo/dir1 -o CMakeFiles/cmake_test.dir/types.cpp.o -c /home/kaito/program/form_maze/types.cpp",
+  "file": "/home/kaito/program/form_maze/types.cpp"
+}
+]

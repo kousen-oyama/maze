@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/kaito/program/form_maze/CMakeFiles/3.10.2/CompilerIdCXX/CMakeCXXCompilerId.cpp
+
+/home/kaito/program/form_maze/main.cpp
+iostream
+-
+types.hpp
+/home/kaito/program/form_maze/types.hpp
+
+/home/kaito/program/form_maze/types.cpp
+iostream
+-
+types.hpp
+/home/kaito/program/form_maze/types.hpp
+
+/home/kaito/program/form_maze/types.hpp
+iostream
+-
+vector
+-
+algorithm
+-
+
