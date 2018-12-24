@@ -8,10 +8,10 @@ int main(){
 			digbuilder.digHold(maze);
 		else
 			digbuilder.backBuilder();
-		maze.disp();
 		std::cout<<std::endl;
 		if(digbuilder.isFinish())
 		  break;
 	}
+	maze.disp();
 	return 0;
 }

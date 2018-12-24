@@ -21,8 +21,8 @@ private:
 	Coordinate coordinate;
 public:
 	Len(){
-		coordinate.x=31;
-		coordinate.y=31;
+		coordinate.x=67;
+		coordinate.y=39;
 	}
 	~Len(){}
 	int get_x_size() const;
