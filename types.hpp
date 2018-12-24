@@ -112,3 +112,9 @@ public:
 	bool isFinish();
 };
 
+class makeMazeAlgorithm{
+private:
+public:
+	void digHoldAlgorithm();
+};
+
