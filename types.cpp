@@ -6,6 +6,7 @@
 #include<stack>
 #include<array>
 #include<cstdio>
+#include<string>
 #include"types.hpp"
 
 int Len::get_x_size() const{
@@ -64,8 +65,10 @@ void Maze::releaseSize(){
 			vec.resize(len.get_x_size());
 		});
 }
-void Maze::init(){
-	inits->makeBoard(this->maze);
+void Maze::initsFactory(std::string& name){
+	if(name=="Hold")  this->inits=new MakeHoldBoard();
+	if(name=="Extend")  this->inits=new MakeExtendBoard();
+	if(name=="Rod")  this->inits=new MakeRodBoard();
 }
 void Maze::disp() const{
 	std::for_each(this->maze.begin(),this->maze.end(),[this](auto vec){
@@ -98,7 +101,10 @@ int Builder::random(const int min,const int max) const{
 	assert((0<=random&&random<=3)&&"out of range3");
 	return random;
 }
-
+Direction Builder::randomDirection() const{
+	const int rand=this->random(0, dir.size()-1);
+	return this->dir.at(rand);
+}
 
 void DigBuilder::moveBuilder(const Direction direction){
 	switch(direction){
@@ -212,7 +218,8 @@ bool DigBuilder::isFinish(){
 }
 
 void makeMazeAlgorithm::digHoldAlgorithm(){
-	Maze maze;
+	std::string name("Hold");
+	Maze maze(name);
 	DigBuilder digbuilder;
 	while(1){
 		if(digbuilder.checkMove(maze))

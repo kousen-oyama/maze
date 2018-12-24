@@ -5,6 +5,7 @@
 #include<random>
 #include<stack>
 #include<array>
+#include<string>
 
 enum class State{
   ROAD,
@@ -61,14 +62,12 @@ private:
 	State_vec2 maze;
 	const Len len;
 	void releaseSize();
-	void init();
+	void initsFactory(std::string& name);
 public:
-	Maze(){
+	Maze(std::string& name){
 		this->releaseSize();
-		this->inits=new MakeHoldBoard();
-		//this->inits=new MakeExtendBoard();
-		//this->inits=new MakeRodBoard();
-		this->init();
+		this->initsFactory(name);
+		inits->makeBoard(this->maze);
 	}
 	~Maze(){
 		delete inits;
@@ -87,8 +86,9 @@ enum class Direction{
 class Builder{
 private:
 public:
-	std::array<Direction,4> dir={Direction::DOWN,Direction::LEFT,Direction::RIGHT,Direction::UP};
+	const std::array<Direction,4> dir={Direction::DOWN,Direction::LEFT,Direction::RIGHT,Direction::UP};
 	int random(const int min,const int max) const;
+	Direction randomDirection() const;
 };
 
 class DigBuilder :public Builder{
@@ -123,5 +123,6 @@ class makeMazeAlgorithm{
 private:
 public:
 	void digHoldAlgorithm();
+	void rodDownAlgorithm();
 };
 
