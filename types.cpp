@@ -65,10 +65,10 @@ void Maze::releaseSize(){
 			vec.resize(len.get_x_size());
 		});
 }
-void Maze::initsFactory(std::string& name){
-	if(name=="Hold")  this->inits=new MakeHoldBoard();
-	if(name=="Extend")  this->inits=new MakeExtendBoard();
-	if(name=="Rod")  this->inits=new MakeRodBoard();
+Inits* Maze::initsFactory(std::string& name){
+	if(name=="Hold")  return new MakeHoldBoard();
+	if(name=="Extend")  return new MakeExtendBoard();
+	if(name=="Rod")  return new MakeRodBoard();
 }
 void Maze::disp() const{
 	std::for_each(this->maze.begin(),this->maze.end(),[this](auto vec){

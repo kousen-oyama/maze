@@ -62,11 +62,11 @@ private:
 	State_vec2 maze;
 	const Len len;
 	void releaseSize();
-	void initsFactory(std::string& name);
+	Inits* initsFactory(std::string& name);
 public:
 	Maze(std::string& name){
 		this->releaseSize();
-		this->initsFactory(name);
+		inits=this->initsFactory(name);
 		inits->makeBoard(this->maze);
 	}
 	~Maze(){
