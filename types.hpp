@@ -66,8 +66,8 @@ private:
 public:
 	Maze(std::string& name){
 		this->releaseSize();
-		inits=this->initsFactory(name);
-		inits->makeBoard(this->maze);
+		this->inits=this->initsFactory(name);
+		this->inits->makeBoard(this->maze);
 	}
 	~Maze(){
 		delete inits;
@@ -86,17 +86,25 @@ enum class Direction{
 class Builder{
 private:
 public:
+
+	
+	//pribateに以降
+	std::stack<Coordinate> builderLog;
+	Coordinate builder;
+	void moveBuilder(const Direction direction);
+	void backBuilder();
+
+	//別クラスに移行せよ
 	const std::array<Direction,4> dir={Direction::DOWN,Direction::LEFT,Direction::RIGHT,Direction::UP};
 	int random(const int min,const int max) const;
 	Direction randomDirection() const;
+
+	
 };
 
 class DigBuilder :public Builder{
 private:
-	std::stack<Coordinate> builderLog;
 	std::vector<Direction> possibleDirection;
-	Coordinate builder;
-	void moveBuilder(const Direction direction);
 	bool checkState(Maze& maze,const Direction direction);
 	bool isOutOfRange(Maze& maze,const Coordinate coodinate);
 	Direction moveDirection() const;
@@ -108,15 +116,21 @@ public:
 		this->builderLog.push(this->builder);
 	}
 	void inits();
-	void backBuilder();
 	bool checkMove(Maze& maze);
 	void digHold(Maze& maze);
 	bool isFinish();
 };
 
-class RodDown{
+class RodDown :public Builder{
 private:
+	Coordinate builder;
+	void randomRodDown(Coordinate coodinate);
 public:
+	RodDown(){
+		this->builder.x=1;
+		this->builder.y=1;
+	}
+	void Make();
 };
 
 class makeMazeAlgorithm{

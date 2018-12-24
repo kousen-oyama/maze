@@ -105,8 +105,7 @@ Direction Builder::randomDirection() const{
 	const int rand=this->random(0, dir.size()-1);
 	return this->dir.at(rand);
 }
-
-void DigBuilder::moveBuilder(const Direction direction){
+void Builder::moveBuilder(const Direction direction){
 	switch(direction){
 	case Direction::DOWN:
 		this->builder.y-=1;
@@ -125,11 +124,12 @@ void DigBuilder::moveBuilder(const Direction direction){
 		break;
 	}
 }
-void DigBuilder::backBuilder(){
+void Builder::backBuilder(){
 	this->builder.x=this->builderLog.top().x;
 	this->builder.y=this->builderLog.top().y;
 	this->builderLog.pop();
 }
+
 bool DigBuilder::checkMove(Maze& maze){
 	std::for_each(this->dir.begin(),this->dir.end(),[this,&maze](auto i){
 			if(this->checkState(maze, i))
@@ -209,6 +209,10 @@ void DigBuilder::dig(Maze& maze, const Direction direction){
 		maze.setState(this->builder, State::ROAD);
 	}
 	this->possibleDirection.clear();
+
+
+	
+	//別クラスに以降せよ
 	this->builderLog.push(this->builder);
 }
 bool DigBuilder::isFinish(){
@@ -217,6 +221,16 @@ bool DigBuilder::isFinish(){
 	return false;
 }
 
+void RodDown::Make(){
+	Len len;
+	for(auto i=1;i<len.get_y_size();i++){
+		this->builder.y++;
+		for(auto j=1;i<len.get_y_size();j++){
+			this->builder.x++;
+			
+		}
+	}
+}
 
 
 void makeMazeAlgorithm::digHoldAlgorithm(){
@@ -235,5 +249,8 @@ void makeMazeAlgorithm::digHoldAlgorithm(){
 	maze.disp();
 }
 void makeMazeAlgorithm::rodDownAlgorithm(){
+	std::string name("Rod");
+	Maze maze(name);
+	DigBuilder digbuilder;
 	
 }
