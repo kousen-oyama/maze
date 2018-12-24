@@ -4,6 +4,7 @@
 #include<algorithm>
 #include<random>
 #include<stack>
+#include<array>
 
 enum class State{
   ROAD,
@@ -86,6 +87,7 @@ enum class Direction{
 class Builder{
 private:
 public:
+	std::array<Direction,4> dir={Direction::DOWN,Direction::LEFT,Direction::RIGHT,Direction::UP};
 	int random(const int min,const int max) const;
 };
 
@@ -110,6 +112,11 @@ public:
 	bool checkMove(Maze& maze);
 	void digHold(Maze& maze);
 	bool isFinish();
+};
+
+class RodDown{
+private:
+public:
 };
 
 class makeMazeAlgorithm{

@@ -125,8 +125,7 @@ void DigBuilder::backBuilder(){
 	this->builderLog.pop();
 }
 bool DigBuilder::checkMove(Maze& maze){
-	std::array<Direction,4> direction={Direction::DOWN,Direction::LEFT,Direction::RIGHT,Direction::UP};
-	std::for_each(direction.begin(),direction.end(),[this,&maze](auto i){
+	std::for_each(this->dir.begin(),this->dir.end(),[this,&maze](auto i){
 			if(this->checkState(maze, i))
 				this->possibleDirection.push_back(i);
 		});
