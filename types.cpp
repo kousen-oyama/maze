@@ -129,6 +129,12 @@ void Builder::backBuilder(){
 	this->builder.y=this->builderLog.top().y;
 	this->builderLog.pop();
 }
+void Builder::setBuilderLog(const Coordinate coodinate){
+	this->builderLog.push(coodinate);
+}
+Coordinate Builder::getBuilderLogTop() const{
+	return this->builderLog.top();
+}
 
 bool DigBuilder::checkMove(Maze& maze){
 	std::for_each(this->dir.begin(),this->dir.end(),[this,&maze](auto i){
@@ -179,7 +185,8 @@ bool DigBuilder::isOutOfRange(Maze& maze, const Coordinate coodinate){
 }
 Direction DigBuilder::moveDirection() const{
 	int rand=this->random(0, this->possibleDirection.size()-1);
-	return this->possibleDirection.at(rand);
+	Direction direction=this->possibleDirection.at(rand);
+	return direction;
 }
 void DigBuilder::digHold(Maze& maze){
 	Direction direction=this->moveDirection();
@@ -209,14 +216,12 @@ void DigBuilder::dig(Maze& maze, const Direction direction){
 		maze.setState(this->builder, State::ROAD);
 	}
 	this->possibleDirection.clear();
-
-
-	
-	//別クラスに以降せよ
-	this->builderLog.push(this->builder);
+	this->setBuilderLog(this->builder);
 }
 bool DigBuilder::isFinish(){
-	if(this->builderLog.top().x==1&&this->builderLog.top().y==1)
+	const int x=this->getBuilderLogTop().x;
+	const int y=this->getBuilderLogTop().y;
+	if(x==1&&y==1)
 		return true;
 	return false;
 }

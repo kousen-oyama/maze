@@ -85,21 +85,19 @@ enum class Direction{
 
 class Builder{
 private:
-public:
-
-	
-	//pribateに以降
 	std::stack<Coordinate> builderLog;
+public:
+	//builderをprivateに移行できないか検討
 	Coordinate builder;
 	void moveBuilder(const Direction direction);
 	void backBuilder();
-
+	void setBuilderLog(const Coordinate coodinate);
+  Coordinate getBuilderLogTop() const;
+	
 	//別クラスに移行せよ
 	const std::array<Direction,4> dir={Direction::DOWN,Direction::LEFT,Direction::RIGHT,Direction::UP};
 	int random(const int min,const int max) const;
 	Direction randomDirection() const;
-
-	
 };
 
 class DigBuilder :public Builder{
@@ -113,7 +111,7 @@ public:
 	DigBuilder(){
 		this->builder.x=1;
 		this->builder.y=1;
-		this->builderLog.push(this->builder);
+		this->setBuilderLog(this->builder);
 	}
 	void inits();
 	bool checkMove(Maze& maze);
