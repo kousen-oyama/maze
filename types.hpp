@@ -2,6 +2,8 @@
 #include<iostream>
 #include<vector>
 #include<algorithm>
+#include<random>
+#include<stack>
 
 enum class State{
   ROAD,
@@ -81,12 +83,31 @@ enum class Direction{
 	UP,DOWN,RIGHT,LEFT
 };
 
-class DigBuilder{
+class Builder{
 private:
 public:
-	DigBuilder();
-	~DigBuilder();
-	Direction random() const;
-	bool isOutLine() const;
+	int random(const int min,const int max) const;
 };
 
+class DigBuilder :public Builder{
+private:
+	std::stack<Coordinate> builderLog;
+	std::vector<Direction> possibleDirection;
+	Coordinate builder;
+	void moveBuilder(const Direction direction);
+	bool checkState(Maze& maze,const Direction direction);
+	bool isOutOfRange(Maze& maze,const Coordinate coodinate);
+	Direction moveDirection() const;
+	void dig(Maze& maze,const Direction direction);
+public:
+	DigBuilder(){
+		this->builder.x=1;
+		this->builder.y=1;
+		this->builderLog.push(this->builder);
+	}
+	void inits();
+	void backBuilder();
+	bool checkMove(Maze& maze);
+	void digHold(Maze& maze);
+	bool isFinish();
+};
