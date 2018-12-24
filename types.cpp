@@ -217,6 +217,8 @@ bool DigBuilder::isFinish(){
 	return false;
 }
 
+
+
 void makeMazeAlgorithm::digHoldAlgorithm(){
 	std::string name("Hold");
 	Maze maze(name);
@@ -231,4 +233,7 @@ void makeMazeAlgorithm::digHoldAlgorithm(){
 		  break;
 	}
 	maze.disp();
+}
+void makeMazeAlgorithm::rodDownAlgorithm(){
+	
 }
