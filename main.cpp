@@ -1,5 +1,11 @@
 #include<iostream>
 #include"types.hpp"
+void digHoldAlgorithm();
+int main(){
+	digHoldAlgorithm();
+	return 0;
+}
+
 void digHoldAlgorithm(){
 	Maze maze;
 	DigBuilder digbuilder;
@@ -13,8 +19,4 @@ void digHoldAlgorithm(){
 		  break;
 	}
 	maze.disp();
-}
-int main(){
-	digHoldAlgorithm();
-	return 0;
 }
