@@ -111,3 +111,4 @@ public:
 	void digHold(Maze& maze);
 	bool isFinish();
 };
+

@@ -1,6 +1,6 @@
 #include<iostream>
 #include"types.hpp"
-int main(){
+void digHoldAlgorithm(){
 	Maze maze;
 	DigBuilder digbuilder;
 	while(1){
@@ -13,5 +13,8 @@ int main(){
 		  break;
 	}
 	maze.disp();
+}
+int main(){
+	digHoldAlgorithm();
 	return 0;
 }
