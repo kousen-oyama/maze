@@ -51,6 +51,8 @@ void MakeRodBoard::makeBoard(State_vec2& vec2){
 		});
 }
 
+
+
 State Maze::getState(const Coordinate coodinate) const{
 	assert((this->maze.at(coodinate.y).at(coodinate.x)==State::ROAD||this->maze.at(coodinate.y).at(coodinate.x)==State::WALL)&&"out of range1");
 	return this->maze.at(coodinate.y).at(coodinate.x);
@@ -93,7 +95,9 @@ void Maze::stateDisp(State state) const{
 	}
 }
 
-int Builder::random(const int min,const int max) const{
+
+
+int Random::random(const int min,const int max) const{
 	std::random_device rnd;
 	std::mt19937_64 mt(rnd());
 	std::uniform_int_distribution<> rand(min,max);
@@ -101,10 +105,12 @@ int Builder::random(const int min,const int max) const{
 	assert((0<=random&&random<=3)&&"out of range3");
 	return random;
 }
-Direction Builder::randomDirection() const{
+Direction Random::randomDirection() const{
 	const int rand=this->random(0, dir.size()-1);
 	return this->dir.at(rand);
 }
+
+
 void Builder::moveBuilder(const Direction direction){
 	switch(direction){
 	case Direction::DOWN:
@@ -135,6 +141,8 @@ void Builder::setBuilderLog(const Coordinate coodinate){
 Coordinate Builder::getBuilderLogTop() const{
 	return this->builderLog.top();
 }
+
+
 
 bool DigBuilder::checkMove(Maze& maze){
 	std::for_each(this->dir.begin(),this->dir.end(),[this,&maze](auto i){
@@ -227,14 +235,7 @@ bool DigBuilder::isFinish(){
 }
 
 void RodDown::Make(){
-	Len len;
-	for(auto i=1;i<len.get_y_size();i++){
-		this->builder.y++;
-		for(auto j=1;i<len.get_y_size();j++){
-			this->builder.x++;
-			
-		}
-	}
+
 }
 
 

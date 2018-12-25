@@ -87,22 +87,25 @@ class Builder{
 private:
 	std::stack<Coordinate> builderLog;
 public:
-	//builderをprivateに移行できないか検討
 	Coordinate builder;
 	void moveBuilder(const Direction direction);
 	void backBuilder();
 	void setBuilderLog(const Coordinate coodinate);
   Coordinate getBuilderLogTop() const;
-	
-	//別クラスに移行せよ
+};
+
+class Random{
+private:
+public:
 	const std::array<Direction,4> dir={Direction::DOWN,Direction::LEFT,Direction::RIGHT,Direction::UP};
 	int random(const int min,const int max) const;
 	Direction randomDirection() const;
 };
 
-class DigBuilder :public Builder{
+class DigBuilder :public Builder,private Random{
 private:
 	std::vector<Direction> possibleDirection;
+
 	bool checkState(Maze& maze,const Direction direction);
 	bool isOutOfRange(Maze& maze,const Coordinate coodinate);
 	Direction moveDirection() const;
@@ -119,9 +122,8 @@ public:
 	bool isFinish();
 };
 
-class RodDown :public Builder{
+class RodDown :public Builder,private Random{
 private:
-	Coordinate builder;
 	void randomRodDown(Coordinate coodinate);
 public:
 	RodDown(){
