@@ -111,6 +111,20 @@ Direction Random::randomDirection() const{
 }
 
 
+
+void Builder::setBuilderLog(){
+	this->builderLog.push(this->builder);
+}
+Coordinate Builder::getBuilderLogTop() const{
+	return this->builderLog.top();
+}
+Coordinate Builder::getBuilder() const{
+	return this->builder;
+}
+void Builder::setBuilder(const int x, const int y){
+	this->builder.x=x;
+	this->builder.y=y;
+}
 void Builder::moveBuilder(const Direction direction){
 	switch(direction){
 	case Direction::DOWN:
@@ -135,12 +149,6 @@ void Builder::backBuilder(){
 	this->builder.y=this->builderLog.top().y;
 	this->builderLog.pop();
 }
-void Builder::setBuilderLog(const Coordinate coodinate){
-	this->builderLog.push(coodinate);
-}
-Coordinate Builder::getBuilderLogTop() const{
-	return this->builderLog.top();
-}
 
 
 
@@ -155,8 +163,8 @@ bool DigBuilder::checkMove(Maze& maze){
 }
 bool DigBuilder::checkState(Maze& maze,const Direction direction){
 	Coordinate state;
-	state.x=this->builder.x;
-	state.y=this->builder.y;
+	state.x=this->getBuilder().x;
+	state.y=this->getBuilder().y;
 	switch(direction){
 	case Direction::DOWN:
 		state.y-=2;
@@ -218,13 +226,13 @@ void DigBuilder::digHold(Maze& maze){
 }
 void DigBuilder::dig(Maze& maze, const Direction direction){
 	int n=0;
-	maze.setState(this->builder, State::ROAD);
+	maze.setState(this->getBuilder(), State::ROAD);
 	while(n++<2){
 		this->moveBuilder(direction);
-		maze.setState(this->builder, State::ROAD);
+		maze.setState(this->getBuilder(), State::ROAD);
 	}
 	this->possibleDirection.clear();
-	this->setBuilderLog(this->builder);
+	this->setBuilderLog();
 }
 bool DigBuilder::isFinish(){
 	const int x=this->getBuilderLogTop().x;

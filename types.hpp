@@ -83,17 +83,6 @@ enum class Direction{
 	UP,DOWN,RIGHT,LEFT
 };
 
-class Builder{
-private:
-	std::stack<Coordinate> builderLog;
-public:
-	Coordinate builder;
-	void moveBuilder(const Direction direction);
-	void backBuilder();
-	void setBuilderLog(const Coordinate coodinate);
-  Coordinate getBuilderLogTop() const;
-};
-
 class Random{
 private:
 public:
@@ -102,19 +91,30 @@ public:
 	Direction randomDirection() const;
 };
 
+class Builder{
+private:
+	Coordinate builder;
+	std::stack<Coordinate> builderLog;
+public:
+	void setBuilderLog();
+  Coordinate getBuilderLogTop() const;
+	Coordinate getBuilder() const;
+	void setBuilder(const int x,const int y);
+	void moveBuilder(const Direction direction);
+	void backBuilder();
+};
+
 class DigBuilder :public Builder,private Random{
 private:
 	std::vector<Direction> possibleDirection;
-
 	bool checkState(Maze& maze,const Direction direction);
 	bool isOutOfRange(Maze& maze,const Coordinate coodinate);
 	Direction moveDirection() const;
 	void dig(Maze& maze,const Direction direction);
 public:
 	DigBuilder(){
-		this->builder.x=1;
-		this->builder.y=1;
-		this->setBuilderLog(this->builder);
+		this->setBuilder(1, 1);
+		this->setBuilderLog();
 	}
 	void inits();
 	bool checkMove(Maze& maze);
@@ -127,8 +127,7 @@ private:
 	void randomRodDown(Coordinate coodinate);
 public:
 	RodDown(){
-		this->builder.x=1;
-		this->builder.y=1;
+		this->setBuilder(1, 1);
 	}
 	void Make();
 };
