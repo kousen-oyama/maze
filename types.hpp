@@ -61,6 +61,7 @@ private:
 	Inits* inits;
 	State_vec2 maze;
 	const Len len;
+private:
 	void releaseSize();
 	Inits* initsFactory(std::string& name);
 public:
@@ -74,7 +75,6 @@ public:
 	}
 	State getState(const Coordinate coodinate) const;
 	void setState(const Coordinate coodinate,const State state);
-	
 	void disp() const;
 	void eachDisp(State_vec1 vec1) const;
 	void stateDisp(State state) const;
@@ -131,18 +131,21 @@ public:
 		this->builder.setBuilder(1, 1);
 		this->builder.setBuilderLog();
 	}
-	void inits();
 	void digHold(Maze& maze);
+	void bakeBuilder();
 	bool isFinish();
 	bool checkMove(Maze& maze);
 };
 
 class RodDown{
 private:
+	PossibleDirectin possibleDirection;
+	Builder builder;
+private:
 	void randomRodDown(Coordinate coodinate);
 public:
 	RodDown(){
-		//		this->setBuilder(1, 1);
+		this->builder.setBuilder(1, 1);
 	}
 	void Make();
 };

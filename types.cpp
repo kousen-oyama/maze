@@ -86,12 +86,12 @@ void Maze::eachDisp(std::vector<State> vec1) const{
 void Maze::stateDisp(State state) const{
 	switch(state){
 	case State::ROAD:
-		std::cout<<"  "; break;
+		std::cout<<"  ";  break;
 	case State::WALL:
 	case State::OUTLINE:
-		std::cout<<"##"; break;
+		std::cout<<"##";  break;
 	default:
-		assert(!"error"); break;
+		assert(!"error");  break;
 	}
 }
 
@@ -107,7 +107,8 @@ int Random::random(const int min,const int max) const{
 }
 Direction Random::randomDirection() const{
 	const int rand=random(0, dir.size()-1);
-	return dir.at(rand);
+	const Direction direction=dir.at(rand);
+	return direction;
 }
 
 
@@ -128,20 +129,15 @@ void Builder::setBuilder(const int x, const int y){
 void Builder::moveBuilder(const Direction direction){
 	switch(direction){
 	case Direction::DOWN:
-		this->builder.y-=1;
-		break;
+		this->builder.y-=1;	 break;
 	case Direction::LEFT:
-		this->builder.x-=1;
-		break;
+		this->builder.x-=1;  break;
 	case Direction::RIGHT:
-		this->builder.x+=1;
-		break;
+		this->builder.x+=1;  break;
 	case Direction::UP:
-		this->builder.y+=1;
-		break;
+		this->builder.y+=1;  break;
 	default:
-		assert(!"error");
-		break;
+		assert(!"error");  break;
 	}
 }
 void Builder::backBuilder(){
@@ -186,13 +182,8 @@ bool DigBuilder::checkMove(Maze& maze){
 }
 bool DigBuilder::checkState(Maze& maze,const Direction direction){
 	Coordinate state;
-	/*state.x=this->getBuilder().x;
-		state.y=this->getBuilder().y;*/
 	state.x=this->builder.getBuilder().x;
 	state.y=this->builder.getBuilder().y;
-
-
-		
 	switch(direction){
 	case Direction::DOWN:
 		state.y-=2;
@@ -211,8 +202,7 @@ bool DigBuilder::checkState(Maze& maze,const Direction direction){
 		if(this->isOutOfRange(maze,state))  return true;
 		break;
 	default:
-		assert(!"error");
-		break;
+		assert(!"error");  break;
 	}
 	return false;
 }
@@ -235,20 +225,15 @@ void DigBuilder::digHold(Maze& maze){
 	const Direction direction=this->moveDirection();
 	switch(direction){
 	case Direction::DOWN:
-		this->dig(maze, Direction::DOWN);
-		break;
+		this->dig(maze, Direction::DOWN);  break;
 	case Direction::LEFT:
-		this->dig(maze, Direction::LEFT);
-		break;
+		this->dig(maze, Direction::LEFT);  break;
 	case Direction::RIGHT:
-		this->dig(maze, Direction::RIGHT);
-		break;
+		this->dig(maze, Direction::RIGHT);  break;
 	case Direction::UP:
-		this->dig(maze, Direction::UP);
-		break;
+		this->dig(maze, Direction::UP);  break;
 	default:
-		assert(!"erroe");
-		break;
+		assert(!"erroe");  break;
 	}
 }
 void DigBuilder::dig(Maze& maze, const Direction direction){
@@ -262,11 +247,14 @@ void DigBuilder::dig(Maze& maze, const Direction direction){
 	this->builder.setBuilderLog();
 }
 bool DigBuilder::isFinish(){
-	const int x=this->builder.getBuilderLogTop().x;
-	const int y=this->builder.getBuilderLogTop().y;
-	if(x==1&&y==1)
+	const int coodinate_x=this->builder.getBuilderLogTop().x;
+	const int coodinate_y=this->builder.getBuilderLogTop().y;
+	if(coodinate_x==1&&coodinate_y==1)
 		return true;
 	return false;
+}
+void DigBuilder::bakeBuilder(){
+	this->builder.backBuilder();
 }
 
 
@@ -279,8 +267,7 @@ void makeMazeAlgorithm::digHoldAlgorithm(){
 		if(digbuilder.checkMove(maze))
 			digbuilder.digHold(maze);
 		else
-			//			digbuilder.backBuilder();
-			digbuilder.builder.backBuilder();
+			digbuilder.bakeBuilder();
 		std::cout<<std::endl;
 		if(digbuilder.isFinish())
 		  break;
