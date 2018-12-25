@@ -120,13 +120,13 @@ public:
 class DigBuilder{
 private:
 	PossibleDirectin possibleDirection;
+	Builder builder;
 private:
 	Direction moveDirection() const;
 	void dig(Maze& maze,const Direction direction);
 	bool checkState(Maze& maze,const Direction direction);
 	bool isPossibleState(Maze& maze,const Coordinate coodinate);
 public:
-	Builder builder;
 	DigBuilder(){
 		this->builder.setBuilder(1, 1);
 		this->builder.setBuilderLog();
@@ -147,7 +147,6 @@ public:
 	RodDown(){
 		this->builder.setBuilder(1, 1);
 	}
-	void Make();
 };
 
 class makeMazeAlgorithm{
