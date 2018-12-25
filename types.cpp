@@ -187,26 +187,22 @@ bool DigBuilder::checkState(Maze& maze,const Direction direction){
 	switch(direction){
 	case Direction::DOWN:
 		state.y-=2;
-		if(this->isOutOfRange(maze,state))  return true;
-		break;
+		if(this->isPossibleState(maze,state))  return true;  break;
 	case Direction::LEFT:
 		state.x-=2;
-		if(this->isOutOfRange(maze,state)) 	return true;
-	  break;
+		if(this->isPossibleState(maze,state)) 	return true;  break;
 	case Direction::RIGHT:
 		state.x+=2;
-		if(this->isOutOfRange(maze,state))  return true;
-		break;
+		if(this->isPossibleState(maze,state))  return true;  break;
 	case Direction::UP:
 		state.y+=2;
-		if(this->isOutOfRange(maze,state))  return true;
-		break;
+		if(this->isPossibleState(maze,state))  return true;  break;
 	default:
 		assert(!"error");  break;
 	}
 	return false;
 }
-bool DigBuilder::isOutOfRange(Maze& maze, const Coordinate coodinate){
+bool DigBuilder::isPossibleState(Maze& maze, const Coordinate coodinate){
 	Len len;
 	if(coodinate.x<0)  return false;
 	if(coodinate.y<0)  return false;

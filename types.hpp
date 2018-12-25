@@ -124,7 +124,7 @@ private:
 	Direction moveDirection() const;
 	void dig(Maze& maze,const Direction direction);
 	bool checkState(Maze& maze,const Direction direction);
-	bool isOutOfRange(Maze& maze,const Coordinate coodinate);
+	bool isPossibleState(Maze& maze,const Coordinate coodinate);
 public:
 	Builder builder;
 	DigBuilder(){
