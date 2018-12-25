@@ -39,6 +39,8 @@ private:
 public:
 	virtual ~Inits(){}
 	virtual void makeBoard(State_vec2& vec2)=0;
+	void fillBoard(State_vec2& vec2,State state);
+	void fillBoardInside(State_vec2& vec2,State state);
 };
 
 class MakeHoldBoard :public Inits{
@@ -91,6 +93,7 @@ private:
 public:
 	int random(const int min,const int max) const;
 	Direction randomDirection() const;
+	Direction randomDirectionNoUp() const;
 };
 
 class Builder{
@@ -98,9 +101,9 @@ private:
 	Coordinate builder;
 	std::stack<Coordinate> builderLog;
 public:
-	void setBuilderLog();
   Coordinate getBuilderLogTop() const;
 	Coordinate getBuilder() const;
+	void setBuilderLog();
 	void setBuilder(const int x,const int y);
 	void moveBuilder(const Direction direction);
 	void backBuilder();
@@ -109,6 +112,7 @@ public:
 class PossibleDirectin{
 private:
 	std::vector<Direction> possibleDirection;
+	Random random;
 public:
 	int possibleDirectionSize() const;
 	bool isEmptyPossibleDirection() const;

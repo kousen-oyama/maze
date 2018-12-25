@@ -16,31 +16,34 @@ int Len::get_y_size() const{
 	return this->coordinate.y;
 }
 
+
+
+void Inits::fillBoard(State_vec2& vec2,State state){
+	std::for_each(vec2.begin(),vec2.end(),[state](auto& vec){
+			std::fill(vec.begin(),vec.end(),state);
+		});
+}
+void Inits::fillBoardInside(State_vec2 &vec2, State state){
+	std::for_each(vec2.begin()+1,vec2.end()-1,[state](auto& vec){
+		std::fill(vec.begin()+1,vec.end()-1,state);
+		});
+}
+
+
+
 void MakeHoldBoard::makeBoard(State_vec2& vec2){
-	std::for_each(vec2.begin(),vec2.end(),[](auto& vec){
-			std::fill(vec.begin(),vec.end(),State::OUTLINE);
-		});
-	std::for_each(vec2.begin()+1,vec2.end()-1,[](auto& vec){
-			std::fill(vec.begin()+1,vec.end()-1,State::WALL);
-		});
+	this->fillBoard(vec2, State::OUTLINE);
+	this->fillBoardInside(vec2, State::WALL);
 }
 
 void MakeExtendBoard::makeBoard(State_vec2& vec2){
-	std::for_each(vec2.begin(),vec2.end(),[](auto& vec){
-			std::fill(vec.begin(),vec.end(),State::OUTLINE);
-		});
-	std::for_each(vec2.begin()+1,vec2.end()-1,[](auto& vec){
-			std::fill(vec.begin()+1,vec.end()-1,State::ROAD);
-		});
+	this->fillBoard(vec2, State::OUTLINE);
+	this->fillBoardInside(vec2, State::ROAD);
 }
 
 void MakeRodBoard::makeBoard(State_vec2& vec2){
-	std::for_each(vec2.begin(),vec2.end(),[](auto& vec){
-			std::fill(vec.begin(),vec.end(),State::OUTLINE);
-		});
-	std::for_each(vec2.begin()+1,vec2.end()-1,[](auto& vec){
-			std::fill(vec.begin()+1,vec.end()-1,State::ROAD);
-		});
+	this->fillBoard(vec2, State::OUTLINE);
+	this->fillBoardInside(vec2, State::ROAD);
 	int n=0,m=0;
 	std::for_each(vec2.begin()+1,vec2.end()-1,[n,m](auto& vec1) mutable{
 			m++;
@@ -110,6 +113,12 @@ Direction Random::randomDirection() const{
 	const Direction direction=dir.at(rand);
 	return direction;
 }
+Direction Random::randomDirectionNoUp() const{
+	const std::array<Direction,3> noUp={Direction::DOWN,Direction::LEFT,Direction::RIGHT};
+	const int rand=random(0, noUp.size()-1);
+	const Direction direction=noUp.at(rand);
+	return direction;
+}
 
 
 
@@ -157,8 +166,7 @@ bool PossibleDirectin::isEmptyPossibleDirection() const{
 	return empty;
 }
 Direction PossibleDirectin::getRandomPossibleDirection() const{
-	Random random;
-	const int rand=random.random(0, this->possibleDirection.size()-1);
+	const int rand=this->random.random(0, this->possibleDirection.size()-1);
 	Direction direction=this->possibleDirection.at(rand);
 	return direction;
 }
