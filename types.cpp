@@ -200,12 +200,12 @@ bool DigBuilder::isOutOfRange(Maze& maze, const Coordinate coodinate){
 	return false;
 }
 Direction DigBuilder::moveDirection() const{
-	int rand=this->random(0, this->possibleDirection.size()-1);
-	Direction direction=this->possibleDirection.at(rand);
+	const int rand=this->random(0, this->possibleDirection.size()-1);
+	const Direction direction=this->possibleDirection.at(rand);
 	return direction;
 }
 void DigBuilder::digHold(Maze& maze){
-	Direction direction=this->moveDirection();
+	const Direction direction=this->moveDirection();
 	switch(direction){
 	case Direction::DOWN:
 		this->dig(maze, Direction::DOWN);
@@ -242,9 +242,6 @@ bool DigBuilder::isFinish(){
 	return false;
 }
 
-void RodDown::Make(){
-
-}
 
 
 void makeMazeAlgorithm::digHoldAlgorithm(){
