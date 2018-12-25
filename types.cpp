@@ -106,8 +106,8 @@ int Random::random(const int min,const int max) const{
 	return random;
 }
 Direction Random::randomDirection() const{
-	const int rand=this->random(0, dir.size()-1);
-	return this->dir.at(rand);
+	const int rand=random(0, dir.size()-1);
+	return dir.at(rand);
 }
 
 
@@ -152,19 +152,47 @@ void Builder::backBuilder(){
 
 
 
+int PossibleDirectin::possibleDirectionSize() const{
+	const int size=possibleDirection.size();
+	return size;
+}
+bool PossibleDirectin::isEmptyPossibleDirection() const{
+	bool empty=this->possibleDirection.empty();
+	return empty;
+}
+Direction PossibleDirectin::getRandomPossibleDirection() const{
+	Random random;
+	const int rand=random.random(0, this->possibleDirection.size()-1);
+	Direction direction=this->possibleDirection.at(rand);
+	return direction;
+}
+void PossibleDirectin::pushPossibleDirection(const Direction direction){
+	this->possibleDirection.push_back(direction);
+}
+void PossibleDirectin::clearPossibleDirection(){
+	this->possibleDirection.clear();
+}
+
+
+
 bool DigBuilder::checkMove(Maze& maze){
-	std::for_each(this->dir.begin(),this->dir.end(),[this,&maze](auto i){
+	std::for_each(dir.begin(),dir.end(),[this,&maze](auto i){
 			if(this->checkState(maze, i))
-				this->possibleDirection.push_back(i);
+				this->possibleDirection.pushPossibleDirection(i);
 		});
-	if(this->possibleDirection.empty())
+	if(this->possibleDirection.isEmptyPossibleDirection())
 		return false;
 	return true;
 }
 bool DigBuilder::checkState(Maze& maze,const Direction direction){
 	Coordinate state;
-	state.x=this->getBuilder().x;
-	state.y=this->getBuilder().y;
+	/*state.x=this->getBuilder().x;
+		state.y=this->getBuilder().y;*/
+	state.x=this->builder.getBuilder().x;
+	state.y=this->builder.getBuilder().y;
+
+
+		
 	switch(direction){
 	case Direction::DOWN:
 		state.y-=2;
@@ -200,8 +228,7 @@ bool DigBuilder::isOutOfRange(Maze& maze, const Coordinate coodinate){
 	return false;
 }
 Direction DigBuilder::moveDirection() const{
-	const int rand=this->random(0, this->possibleDirection.size()-1);
-	const Direction direction=this->possibleDirection.at(rand);
+	const Direction direction=this->possibleDirection.getRandomPossibleDirection();	
 	return direction;
 }
 void DigBuilder::digHold(Maze& maze){
@@ -226,17 +253,17 @@ void DigBuilder::digHold(Maze& maze){
 }
 void DigBuilder::dig(Maze& maze, const Direction direction){
 	int n=0;
-	maze.setState(this->getBuilder(), State::ROAD);
+	maze.setState(this->builder.getBuilder(), State::ROAD);
 	while(n++<2){
-		this->moveBuilder(direction);
-		maze.setState(this->getBuilder(), State::ROAD);
+		this->builder.moveBuilder(direction);
+		maze.setState(this->builder.getBuilder(), State::ROAD);
 	}
-	this->possibleDirection.clear();
-	this->setBuilderLog();
+	this->possibleDirection.clearPossibleDirection();
+	this->builder.setBuilderLog();
 }
 bool DigBuilder::isFinish(){
-	const int x=this->getBuilderLogTop().x;
-	const int y=this->getBuilderLogTop().y;
+	const int x=this->builder.getBuilderLogTop().x;
+	const int y=this->builder.getBuilderLogTop().y;
 	if(x==1&&y==1)
 		return true;
 	return false;
@@ -252,7 +279,8 @@ void makeMazeAlgorithm::digHoldAlgorithm(){
 		if(digbuilder.checkMove(maze))
 			digbuilder.digHold(maze);
 		else
-			digbuilder.backBuilder();
+			//			digbuilder.backBuilder();
+			digbuilder.builder.backBuilder();
 		std::cout<<std::endl;
 		if(digbuilder.isFinish())
 		  break;

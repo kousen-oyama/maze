@@ -74,6 +74,7 @@ public:
 	}
 	State getState(const Coordinate coodinate) const;
 	void setState(const Coordinate coodinate,const State state);
+	
 	void disp() const;
 	void eachDisp(State_vec1 vec1) const;
 	void stateDisp(State state) const;
@@ -83,10 +84,11 @@ enum class Direction{
 	UP,DOWN,RIGHT,LEFT
 };
 
+	const std::array<Direction,4> dir={Direction::DOWN,Direction::LEFT,Direction::RIGHT,Direction::UP};
+
 class Random{
 private:
 public:
-	const std::array<Direction,4> dir={Direction::DOWN,Direction::LEFT,Direction::RIGHT,Direction::UP};
 	int random(const int min,const int max) const;
 	Direction randomDirection() const;
 };
@@ -104,30 +106,43 @@ public:
 	void backBuilder();
 };
 
-class DigBuilder :public Builder,private Random{
+class PossibleDirectin{
 private:
 	std::vector<Direction> possibleDirection;
-	bool checkState(Maze& maze,const Direction direction);
-	bool isOutOfRange(Maze& maze,const Coordinate coodinate);
-	Direction moveDirection() const;
-	void dig(Maze& maze,const Direction direction);
 public:
-	DigBuilder(){
-		this->setBuilder(1, 1);
-		this->setBuilderLog();
-	}
-	void inits();
-	bool checkMove(Maze& maze);
-	void digHold(Maze& maze);
-	bool isFinish();
+	int possibleDirectionSize() const;
+	bool isEmptyPossibleDirection() const;
+	Direction getRandomPossibleDirection() const;
+	void pushPossibleDirection(const Direction direction);
+	void clearPossibleDirection();
 };
 
-class RodDown :public Builder,private Random{
+class DigBuilder{
+private:
+	PossibleDirectin possibleDirection;
+private:
+	Direction moveDirection() const;
+	void dig(Maze& maze,const Direction direction);
+	bool checkState(Maze& maze,const Direction direction);
+	bool isOutOfRange(Maze& maze,const Coordinate coodinate);
+public:
+	Builder builder;
+	DigBuilder(){
+		this->builder.setBuilder(1, 1);
+		this->builder.setBuilderLog();
+	}
+	void inits();
+	void digHold(Maze& maze);
+	bool isFinish();
+	bool checkMove(Maze& maze);
+};
+
+class RodDown{
 private:
 	void randomRodDown(Coordinate coodinate);
 public:
 	RodDown(){
-		this->setBuilder(1, 1);
+		//		this->setBuilder(1, 1);
 	}
 	void Make();
 };
