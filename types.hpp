@@ -143,9 +143,10 @@ public:
 };
 
 class RodDown{
+protected:
+	std::vector<Coordinate> coordinateList;
 private:
 	PossibleDirectin possibleDirection;
-	std::vector<Coordinate> coordinateList;
 private:
 	void makePossibleDirection(Maze& maze,const Coordinate coordinate);
 	void makePossibleDirectionNoUp(Maze& maze,const Coordinate coordinate);

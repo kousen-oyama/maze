@@ -340,6 +340,9 @@ void RodDown::rodDownDirection(Maze& maze, Coordinate coordinate, const Directio
 void makeMazeAlgorithm::digHoldAlgorithm(){
 	std::string name("Hold");
 	Maze maze(name);
+	Len len;
+	std::cout<<"x_size>"<<len.get_x_size()<<std::endl;
+	std::cout<<"y_size>"<<len.get_y_size()<<std::endl;
 	while(1){
 		this->digbuilder.makePossibleDirection(maze);
 		if(this->digbuilder.isEmptyPossibleDirection())
@@ -354,6 +357,9 @@ void makeMazeAlgorithm::digHoldAlgorithm(){
 void makeMazeAlgorithm::rodDownAlgorithm(){
 	std::string name("Rod");
 	Maze maze(name);
+	Len len;
+	std::cout<<"x_size>"<<len.get_x_size()<<std::endl;
+	std::cout<<"y_size>"<<len.get_y_size()<<std::endl;
 	this->roddown.makeCoordinateList(maze);
 	this->roddown.randomRodDown(maze);
 	maze.disp();
