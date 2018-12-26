@@ -148,12 +148,13 @@ private:
 	//builderと結合できるか検討
 	std::vector<Coordinate> coordinateList;
 private:
-	void makeCoordinateList(Maze& maze);
 	void makePossibleDirection(Maze& maze,const Coordinate coordinate);
 	void makePossibleDirectionNoUp(Maze& maze,const Coordinate coordinate);
+	void rodDownDirection(Maze& maze,Coordinate coordinate,const Direction direction);
 	bool isPossibleDirection(Maze& maze,Coordinate coordinate,const Direction direction);
 public:
-	
+	void makeCoordinateList(Maze& maze);
+	void randomRodDown(Maze& maze);
 };
 
 class makeMazeAlgorithm{
