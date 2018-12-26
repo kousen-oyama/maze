@@ -189,9 +189,7 @@ bool DigBuilder::isEmptyPossibleDirection() const{
 	return true;
 }
 bool DigBuilder::checkDirection(Maze& maze,const Direction direction){
-	Coordinate coordinate;
-	coordinate.x=this->builder.getBuilder().x;
-	coordinate.y=this->builder.getBuilder().y;
+	Coordinate coordinate(this->builder.getBuilder().x,this->builder.getBuilder().y);
 	switch(direction){
 	case Direction::DOWN:
 		coordinate.y+=2;
@@ -251,9 +249,8 @@ void DigBuilder::digHoldDirection(Maze& maze, const Direction direction){
 	this->builder.setBuilderLog();
 }
 bool DigBuilder::isFinish(){
-	const int coordinate_x=this->builder.getBuilderLogTop().x;
-	const int coordinate_y=this->builder.getBuilderLogTop().y;
-	if(coordinate_x==1&&coordinate_y==1)
+	Coordinate coordinate(1,1);
+	if(this->builder.getBuilderLogTop()==coordinate)
 		return true;
 	return false;
 }

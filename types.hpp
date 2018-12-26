@@ -14,19 +14,22 @@ enum class State{
 	OUTLINE
 };
 
-struct Coordinate{
+class Coordinate{
+public:
 	int x;
 	int y;
+	bool operator==(const Coordinate& coordinate){
+		return (this->x==coordinate.x&&this->y==coordinate.y);
+	}
+	Coordinate(){}
+	Coordinate(const int x,const int y) :x(x),y(y){}
 };
 
 class Len{
 private:
 	Coordinate coordinate;
 public:
-	Len(){
-		coordinate.x=67;
-		coordinate.y=39;
-	}
+	Len() :coordinate(67,41){}
 	~Len(){}
 	int get_x_size() const;
 	int get_y_size() const;
@@ -157,6 +160,7 @@ public:
 	void randomRodDown(Maze& maze);
 };
 
+//デバック用クラス
 class makeMazeAlgorithm{
 private:
 	DigBuilder digbuilder;
