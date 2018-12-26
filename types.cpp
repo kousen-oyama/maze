@@ -82,16 +82,21 @@ void Maze::disp() const{
 void Maze::eachDisp(std::vector<State> vec1) const{
 	std::for_each(vec1.begin(),vec1.end(),[this](auto state){
 			this->stateDisp(state);
+			std::cout<<"\x1b[49m";
 		});
 	std::cout<<std::endl;
 }
 void Maze::stateDisp(State state) const{
 	switch(state){
 	case State::ROAD:
-		std::cout<<"  ";  break;
+		std::cout<<"\x1b[47m";
+		std::cout<<"  ";
+		break;
 	case State::WALL:
 	case State::OUTLINE:
-		std::cout<<"##";  break;
+		std::cout<<"\x1b[46m";
+		std::cout<<"  ";
+		break;
 	default:
 		assert(!"error");  break;
 	}
