@@ -94,7 +94,6 @@ private:
 public:
 	int random(const int min,const int max) const;
 	Direction randomDirection() const;
-	Direction randomDirectionNoUp() const;
 };
 
 class Builder{
@@ -130,8 +129,7 @@ private:
 	Direction willMoveDirection() const;
 	void digHoldDirection(Maze& maze,const Direction direction);
 	bool checkDirection(Maze& maze,const Direction direction);
-	//coordinateのスペルが違う
-	bool isPossibleCoordinate(Maze& maze,const Coordinate coodinate);
+	bool isPossibleCoordinate(Maze& maze,const Coordinate coordinate);
 public:
 	DigBuilder(){
 		this->builder.setBuilder(1, 1);
@@ -146,17 +144,16 @@ public:
 
 class RodDown{
 private:
-	Builder builder;
 	PossibleDirectin possibleDirection;
-	std::queue<Coordinate> coordinateList;
+	//builderと結合できるか検討
+	std::vector<Coordinate> coordinateList;
 private:
 	void makeCoordinateList(Maze& maze);
 	void makePossibleDirection(Maze& maze,const Coordinate coordinate);
+	void makePossibleDirectionNoUp(Maze& maze,const Coordinate coordinate);
 	bool isPossibleDirection(Maze& maze,Coordinate coordinate,const Direction direction);
 public:
-	RodDown(){
-		this->builder.setBuilder(1, 1);
-	}
+	
 };
 
 class makeMazeAlgorithm{

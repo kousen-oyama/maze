@@ -114,12 +114,6 @@ Direction Random::randomDirection() const{
 	const Direction direction=dir.at(rand);
 	return direction;
 }
-Direction Random::randomDirectionNoUp() const{
-	const std::array<Direction,3> noUp={Direction::DOWN,Direction::LEFT,Direction::RIGHT};
-	const int rand=random(0, noUp.size()-1);
-	const Direction direction=noUp.at(rand);
-	return direction;
-}
 
 
 
@@ -192,34 +186,34 @@ bool DigBuilder::isEmptyPossibleDirection() const{
 	return true;
 }
 bool DigBuilder::checkDirection(Maze& maze,const Direction direction){
-	Coordinate coodinate;
-	coodinate.x=this->builder.getBuilder().x;
-	coodinate.y=this->builder.getBuilder().y;
+	Coordinate coordinate;
+	coordinate.x=this->builder.getBuilder().x;
+	coordinate.y=this->builder.getBuilder().y;
 	switch(direction){
 	case Direction::DOWN:
-		coodinate.y-=2;
-		if(this->isPossibleCoordinate(maze,coodinate))  return true;  break;
+		coordinate.y-=2;
+		if(this->isPossibleCoordinate(maze,coordinate))  return true;  break;
 	case Direction::LEFT:
-		coodinate.x-=2;
-		if(this->isPossibleCoordinate(maze,coodinate)) 	return true;  break;
+		coordinate.x-=2;
+		if(this->isPossibleCoordinate(maze,coordinate)) 	return true;  break;
 	case Direction::RIGHT:
-		coodinate.x+=2;
-		if(this->isPossibleCoordinate(maze,coodinate))  return true;  break;
+		coordinate.x+=2;
+		if(this->isPossibleCoordinate(maze,coordinate))  return true;  break;
 	case Direction::UP:
-		coodinate.y+=2;
-		if(this->isPossibleCoordinate(maze,coodinate))  return true;  break;
+		coordinate.y+=2;
+		if(this->isPossibleCoordinate(maze,coordinate))  return true;  break;
 	default:
 		assert(!"error");  break;
 	}
 	return false;
 }
-bool DigBuilder::isPossibleCoordinate(Maze& maze, const Coordinate coodinate){
+bool DigBuilder::isPossibleCoordinate(Maze& maze, const Coordinate coordinate){
 	Len len;
-	if(coodinate.x<0)  return false;
-	if(coodinate.y<0)  return false;
-	if(coodinate.x>len.get_x_size()-1)  return false;
-	if(coodinate.y>len.get_y_size()-1)  return false;
-	State state=maze.getState(coodinate);
+	if(coordinate.x<0)  return false;
+	if(coordinate.y<0)  return false;
+	if(coordinate.x>len.get_x_size()-1)  return false;
+	if(coordinate.y>len.get_y_size()-1)  return false;
+	State state=maze.getState(coordinate);
 	if(state==State::WALL)
 		return true;
 	return false;
@@ -277,13 +271,19 @@ void RodDown::makeCoordinateList(Maze& maze){
 			coordinate.x++;
 			state=maze.getState(coordinate);
 			if(state==State::WALL)
-				this->coordinateList.push(coordinate);
+				this->coordinateList.push_back(coordinate);
 		}
 		coordinate.y++;
 	}
 }
 void RodDown::makePossibleDirection(Maze &maze,const Coordinate coordinate){
 	std::for_each(dir.begin(), dir.end(),[this,&maze,coordinate](auto directoin){
+			if(this->isPossibleDirection(maze, coordinate ,directoin))
+				this->possibleDirection.pushPossibleDirection(directoin);
+		});
+}
+void RodDown::makePossibleDirectionNoUp(Maze &maze, const Coordinate coordinate){
+	std::for_each(dir.begin(), dir.end()-1,[this,&maze,coordinate](auto directoin){
 			if(this->isPossibleDirection(maze, coordinate ,directoin))
 				this->possibleDirection.pushPossibleDirection(directoin);
 		});
