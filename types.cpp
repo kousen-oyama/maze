@@ -7,6 +7,7 @@
 #include<array>
 #include<cstdio>
 #include<string>
+#include<queue>
 #include"types.hpp"
 
 int Len::get_x_size() const{
@@ -56,13 +57,13 @@ void MakeRodBoard::makeBoard(State_vec2& vec2){
 
 
 
-State Maze::getState(const Coordinate coodinate) const{
-	assert((this->maze.at(coodinate.y).at(coodinate.x)==State::ROAD||this->maze.at(coodinate.y).at(coodinate.x)==State::WALL)&&"out of range1");
-	return this->maze.at(coodinate.y).at(coodinate.x);
+State Maze::getState(const Coordinate coordinate) const{
+	assert((this->maze.at(coordinate.y).at(coordinate.x)==State::ROAD||this->maze.at(coordinate.y).at(coordinate.x)==State::WALL)&&"out of range1");
+	return this->maze.at(coordinate.y).at(coordinate.x);
 }
-void Maze::setState(const Coordinate coodinate, const State state){
-	assert((this->maze.at(coodinate.y).at(coodinate.x)==State::ROAD||this->maze.at(coodinate.y).at(coodinate.x)==State::WALL)&&"out of range2");
-	this->maze.at(coodinate.y).at(coodinate.x)=state;
+void Maze::setState(const Coordinate coordinate, const State state){
+	assert((this->maze.at(coordinate.y).at(coordinate.x)==State::ROAD||this->maze.at(coordinate.y).at(coordinate.x)==State::WALL)&&"out of range2");
+	this->maze.at(coordinate.y).at(coordinate.x)=state;
 }
 void Maze::releaseSize(){
 	this->maze.resize(len.get_y_size());
@@ -179,38 +180,40 @@ void PossibleDirectin::clearPossibleDirection(){
 
 
 
-bool DigBuilder::checkMove(Maze& maze){
-	std::for_each(dir.begin(),dir.end(),[this,&maze](auto i){
-			if(this->checkState(maze, i))
-				this->possibleDirection.pushPossibleDirection(i);
+void DigBuilder::makePossibleDirection(Maze& maze){
+	std::for_each(dir.begin(),dir.end(),[this,&maze](auto direction){
+			if(this->checkDirection(maze, direction))
+				this->possibleDirection.pushPossibleDirection(direction);
 		});
+}
+bool DigBuilder::isEmptyPossibleDirection() const{
 	if(this->possibleDirection.isEmptyPossibleDirection())
 		return false;
 	return true;
 }
-bool DigBuilder::checkState(Maze& maze,const Direction direction){
-	Coordinate state;
-	state.x=this->builder.getBuilder().x;
-	state.y=this->builder.getBuilder().y;
+bool DigBuilder::checkDirection(Maze& maze,const Direction direction){
+	Coordinate coodinate;
+	coodinate.x=this->builder.getBuilder().x;
+	coodinate.y=this->builder.getBuilder().y;
 	switch(direction){
 	case Direction::DOWN:
-		state.y-=2;
-		if(this->isPossibleState(maze,state))  return true;  break;
+		coodinate.y-=2;
+		if(this->isPossibleCoordinate(maze,coodinate))  return true;  break;
 	case Direction::LEFT:
-		state.x-=2;
-		if(this->isPossibleState(maze,state)) 	return true;  break;
+		coodinate.x-=2;
+		if(this->isPossibleCoordinate(maze,coodinate)) 	return true;  break;
 	case Direction::RIGHT:
-		state.x+=2;
-		if(this->isPossibleState(maze,state))  return true;  break;
+		coodinate.x+=2;
+		if(this->isPossibleCoordinate(maze,coodinate))  return true;  break;
 	case Direction::UP:
-		state.y+=2;
-		if(this->isPossibleState(maze,state))  return true;  break;
+		coodinate.y+=2;
+		if(this->isPossibleCoordinate(maze,coodinate))  return true;  break;
 	default:
 		assert(!"error");  break;
 	}
 	return false;
 }
-bool DigBuilder::isPossibleState(Maze& maze, const Coordinate coodinate){
+bool DigBuilder::isPossibleCoordinate(Maze& maze, const Coordinate coodinate){
 	Len len;
 	if(coodinate.x<0)  return false;
 	if(coodinate.y<0)  return false;
@@ -221,26 +224,26 @@ bool DigBuilder::isPossibleState(Maze& maze, const Coordinate coodinate){
 		return true;
 	return false;
 }
-Direction DigBuilder::moveDirection() const{
+Direction DigBuilder::willMoveDirection() const{
 	const Direction direction=this->possibleDirection.getRandomPossibleDirection();	
 	return direction;
 }
 void DigBuilder::digHold(Maze& maze){
-	const Direction direction=this->moveDirection();
+	const Direction direction=this->willMoveDirection();
 	switch(direction){
 	case Direction::DOWN:
-		this->dig(maze, Direction::DOWN);  break;
+		this->digHoldDirection(maze, Direction::DOWN);  break;
 	case Direction::LEFT:
-		this->dig(maze, Direction::LEFT);  break;
+		this->digHoldDirection(maze, Direction::LEFT);  break;
 	case Direction::RIGHT:
-		this->dig(maze, Direction::RIGHT);  break;
+		this->digHoldDirection(maze, Direction::RIGHT);  break;
 	case Direction::UP:
-		this->dig(maze, Direction::UP);  break;
+		this->digHoldDirection(maze, Direction::UP);  break;
 	default:
 		assert(!"erroe");  break;
 	}
 }
-void DigBuilder::dig(Maze& maze, const Direction direction){
+void DigBuilder::digHoldDirection(Maze& maze, const Direction direction){
 	int n=0;
 	maze.setState(this->builder.getBuilder(), State::ROAD);
 	while(n++<2){
@@ -251,9 +254,9 @@ void DigBuilder::dig(Maze& maze, const Direction direction){
 	this->builder.setBuilderLog();
 }
 bool DigBuilder::isFinish(){
-	const int coodinate_x=this->builder.getBuilderLogTop().x;
-	const int coodinate_y=this->builder.getBuilderLogTop().y;
-	if(coodinate_x==1&&coodinate_y==1)
+	const int coordinate_x=this->builder.getBuilderLogTop().x;
+	const int coordinate_y=this->builder.getBuilderLogTop().y;
+	if(coordinate_x==1&&coordinate_y==1)
 		return true;
 	return false;
 }
@@ -263,24 +266,66 @@ void DigBuilder::bakeBuilder(){
 
 
 
+void RodDown::makeCoordinateList(Maze& maze){
+	Len len;
+	State state;
+	Coordinate coordinate;
+	coordinate.x=0;
+	coordinate.y=0;
+	for(int i=0;i<len.get_y_size()-1;i++){
+		for(int j=0;j<len.get_x_size()-1;j++){
+			coordinate.x++;
+			state=maze.getState(coordinate);
+			if(state==State::WALL)
+				this->coordinateList.push(coordinate);
+		}
+		coordinate.y++;
+	}
+}
+void RodDown::makePossibleDirection(Maze &maze,const Coordinate coordinate){
+	std::for_each(dir.begin(), dir.end(),[this,&maze,coordinate](auto directoin){
+			if(this->isPossibleDirection(maze, coordinate ,directoin))
+				this->possibleDirection.pushPossibleDirection(directoin);
+		});
+}
+bool RodDown::isPossibleDirection(Maze &maze, Coordinate coordinate, const Direction direction){
+	switch(direction){
+	case Direction::DOWN:
+		coordinate.y-=1;
+		if(maze.getState(coordinate)==State::ROAD)  return true;  break;
+	case Direction::LEFT:
+		coordinate.x-=1;
+		if(maze.getState(coordinate)==State::ROAD)  return true;  break;
+	case Direction::RIGHT:
+		coordinate.x+=1;
+		if(maze.getState(coordinate)==State::ROAD)  return true;  break;
+	case Direction::UP:
+		coordinate.y+=1;
+		if(maze.getState(coordinate)==State::ROAD)  return true;  break;
+	default:
+		assert(!"error");  break;
+	}
+	return false;
+}
+
+
+
 void makeMazeAlgorithm::digHoldAlgorithm(){
 	std::string name("Hold");
 	Maze maze(name);
-	DigBuilder digbuilder;
 	while(1){
-		if(digbuilder.checkMove(maze))
-			digbuilder.digHold(maze);
+		this->digbuilder.makePossibleDirection(maze);
+		if(this->digbuilder.isEmptyPossibleDirection())
+			this->digbuilder.digHold(maze);
 		else
-			digbuilder.bakeBuilder();
+			this->digbuilder.bakeBuilder();
 		std::cout<<std::endl;
-		if(digbuilder.isFinish())
-		  break;
+		if(this->digbuilder.isFinish())  break;
 	}
 	maze.disp();
 }
 void makeMazeAlgorithm::rodDownAlgorithm(){
 	std::string name("Rod");
 	Maze maze(name);
-	DigBuilder digbuilder;
 	
 }

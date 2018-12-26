@@ -6,6 +6,7 @@
 #include<stack>
 #include<array>
 #include<string>
+#include<queue>
 
 enum class State{
   ROAD,
@@ -75,8 +76,8 @@ public:
 	~Maze(){
 		delete inits;
 	}
-	State getState(const Coordinate coodinate) const;
-	void setState(const Coordinate coodinate,const State state);
+	State getState(const Coordinate coordinate) const;
+	void setState(const Coordinate coordinate,const State state);
 	void disp() const;
 	void eachDisp(State_vec1 vec1) const;
 	void stateDisp(State state) const;
@@ -126,27 +127,32 @@ private:
 	PossibleDirectin possibleDirection;
 	Builder builder;
 private:
-	Direction moveDirection() const;
-	void dig(Maze& maze,const Direction direction);
-	bool checkState(Maze& maze,const Direction direction);
-	bool isPossibleState(Maze& maze,const Coordinate coodinate);
+	Direction willMoveDirection() const;
+	void digHoldDirection(Maze& maze,const Direction direction);
+	bool checkDirection(Maze& maze,const Direction direction);
+	//coordinateのスペルが違う
+	bool isPossibleCoordinate(Maze& maze,const Coordinate coodinate);
 public:
 	DigBuilder(){
 		this->builder.setBuilder(1, 1);
 		this->builder.setBuilderLog();
 	}
+	bool isFinish();
+	bool isEmptyPossibleDirection() const;
 	void digHold(Maze& maze);
 	void bakeBuilder();
-	bool isFinish();
-	bool checkMove(Maze& maze);
+	void makePossibleDirection(Maze& maze);
 };
 
 class RodDown{
 private:
-	PossibleDirectin possibleDirection;
 	Builder builder;
+	PossibleDirectin possibleDirection;
+	std::queue<Coordinate> coordinateList;
 private:
-	void randomRodDown(Coordinate coodinate);
+	void makeCoordinateList(Maze& maze);
+	void makePossibleDirection(Maze& maze,const Coordinate coordinate);
+	bool isPossibleDirection(Maze& maze,Coordinate coordinate,const Direction direction);
 public:
 	RodDown(){
 		this->builder.setBuilder(1, 1);
@@ -155,6 +161,8 @@ public:
 
 class makeMazeAlgorithm{
 private:
+	DigBuilder digbuilder;
+	RodDown roddown;
 public:
 	void digHoldAlgorithm();
 	void rodDownAlgorithm();
