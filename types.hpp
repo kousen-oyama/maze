@@ -145,7 +145,6 @@ public:
 class RodDown{
 private:
 	PossibleDirectin possibleDirection;
-	//builderと結合できるか検討
 	std::vector<Coordinate> coordinateList;
 private:
 	void makePossibleDirection(Maze& maze,const Coordinate coordinate);

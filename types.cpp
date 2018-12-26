@@ -261,8 +261,8 @@ void DigBuilder::bakeBuilder(){
 void RodDown::makeCoordinateList(Maze& maze){
 	Len len;
 	Coordinate coordinate;
-	for(coordinate.y=1;coordinate.y<len.get_y_size()-2;coordinate.y++){
-		for(coordinate.x=1;coordinate.x<len.get_x_size()-2;coordinate.x++){
+	for(coordinate.y=0;coordinate.y<len.get_y_size()-1;coordinate.y++){
+		for(coordinate.x=0;coordinate.x<len.get_x_size()-1;coordinate.x++){
 			if(maze.getState(coordinate)==State::WALL)
 				this->coordinateList.push_back(coordinate);
 		}
