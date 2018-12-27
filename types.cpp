@@ -56,7 +56,6 @@ void MakeRodBoard::makeBoard(State_vec2& vec2){
 }
 
 
-
 State Maze::getState(const Coordinate coordinate) const{
 	return this->maze.at(coordinate.y).at(coordinate.x);
 }
@@ -93,8 +92,11 @@ void Maze::stateDisp(State state) const{
 		std::cout<<"  ";
 		break;
 	case State::WALL:
+		std::cout<<"\x1b[41m";
+		std::cout<<"  ";
+		break;
 	case State::OUTLINE:
-		std::cout<<"\x1b[46m";
+		std::cout<<"\x1b[41m";
 		std::cout<<"  ";
 		break;
 	default:

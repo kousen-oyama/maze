@@ -4,6 +4,6 @@ makeMazeAlgorithm make;
 int main(){
 	make.digHoldAlgorithm();
 	std::cout<<std::endl;
-	make.rodDownAlgorithm();
+	//make.rodDownAlgorithm();
 	return 0;
 }
