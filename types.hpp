@@ -29,7 +29,7 @@ class Len{
 private:
 	Coordinate coordinate;
 public:
-	Len() :coordinate(41,41){}
+	Len() :coordinate(65,41){}
 	~Len(){}
 	int get_x_size() const;
 	int get_y_size() const;
