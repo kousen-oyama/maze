@@ -18,7 +18,6 @@ int Len::get_y_size() const{
 }
 
 
-
 void Inits::fillBoard(State_vec2& vec2,State state){
 	std::for_each(vec2.begin(),vec2.end(),[state](auto& vec){
 			std::fill(vec.begin(),vec.end(),state);
