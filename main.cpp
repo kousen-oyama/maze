@@ -2,7 +2,8 @@
 #include"types.hpp"
 makeMazeAlgorithm make;
 int main(){
-	//	make.digHoldAlgorithm();
+	make.digHoldAlgorithm();
+	std::cout<<std::endl;
 	make.rodDownAlgorithm();
 	return 0;
 }

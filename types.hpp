@@ -131,7 +131,7 @@ private:
 private:
 	Direction willMoveDirection() const;
 	void digHoldDirection(Maze& maze,const Direction direction);
-	bool checkDirection(Maze& maze,const Direction direction);
+	bool checkDirection(Maze& maze,const Direction direction,Coordinate coordinate);
 	bool isPossibleCoordinate(Maze& maze,const Coordinate coordinate);
 public:
 	DigBuilder(){

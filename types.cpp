@@ -179,7 +179,7 @@ void PossibleDirectin::clearPossibleDirection(){
 
 void DigBuilder::makePossibleDirection(Maze& maze){
 	std::for_each(dir.begin(),dir.end(),[this,&maze](auto direction){
-			if(this->checkDirection(maze, direction))
+			if(this->checkDirection(maze, direction,this->builder.getBuilder()))
 				this->possibleDirection.pushPossibleDirection(direction);
 		});
 }
@@ -188,8 +188,7 @@ bool DigBuilder::isEmptyPossibleDirection() const{
 		return false;
 	return true;
 }
-bool DigBuilder::checkDirection(Maze& maze,const Direction direction){
-	Coordinate coordinate(this->builder.getBuilder().x,this->builder.getBuilder().y);
+bool DigBuilder::checkDirection(Maze& maze,const Direction direction,Coordinate coordinate){
 	switch(direction){
 	case Direction::DOWN:
 		coordinate.y+=2;
@@ -257,7 +256,6 @@ bool DigBuilder::isFinish(){
 void DigBuilder::bakeBuilder(){
 	this->builder.backBuilder();
 }
-
 
 
 void RodDown::makeCoordinateList(Maze& maze){
